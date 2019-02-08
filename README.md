@@ -7,4 +7,5 @@ To get this running after building the executable ...
 
 - On a mac, you need to setup gln (sudo ln -s gln ln) and greadlink (sudo ln -s greadlink readlink) as the mac versions don't replicate the linux ones. You can get these via the coreutils and I made symbolic links in /opt/local/bin
 
+- cd lpj_guess_runs/src/guess_4.0.1/guess_4.0.1/benchmarks
 - ./benchmarks -s -i "pristine_sites" ../../../../runs/sites_test
