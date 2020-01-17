@@ -16,13 +16,11 @@ fi
 if [ $MACHINE == "Mart" ] # my mac
 then
     CMAKE_PREFIX_PATH=/opt/local/
-elif [ $MACHINE == "raij" ] # nci
+elif [ $MACHINE == "gadi" ] # nci
 then
     module purge
-    module load intel-cc/2019.0.117
-    module load netcdf/4.3.3.1
-    module load cmake/3.8.2
-    module load intel-mpi/2019.0.117
+    module load intel-compiler/2019.3.199
+    module load netcdf/4.7.1
     export CMAKE_PREFIX_PATH=$NETCDF_ROOT
     cmake guess_4.0.1
 else                        # storm servers
