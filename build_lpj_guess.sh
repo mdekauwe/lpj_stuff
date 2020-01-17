@@ -21,6 +21,7 @@ elif [ $MACHINE == "gadi" ] # nci
 then
     module purge
     module load intel-compiler/2019.3.199
+    module load intel-mpi/2019.6.166
     module load netcdf/4.7.1
     export CMAKE_PREFIX_PATH=$NETCDF_ROOT
     cmake guess_4.0.1
@@ -29,7 +30,6 @@ else                        # storm servers
     #module load intel-cc/2019.0.117
     module load netcdf/4.1.3-intel
     module load cmake/2.8.11
-    #module load intel-mpi/2019.0.117
     export CMAKE_PREFIX_PATH=$NETCDF_ROOT
     cmake guess_4.0.1
 fi
