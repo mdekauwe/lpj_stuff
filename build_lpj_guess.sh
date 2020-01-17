@@ -16,6 +16,7 @@ fi
 if [ $MACHINE == "Mart" ] # my mac
 then
     CMAKE_PREFIX_PATH=/opt/local/
+    cmake guess_4.0.1
 elif [ $MACHINE == "gadi" ] # nci
 then
     module purge
