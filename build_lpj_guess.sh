@@ -20,6 +20,9 @@ then
 elif [ $MACHINE == "gadi" ] # nci
 then
     module purge
+    module load pbs
+    module load dot
+    module load cdo/1.9.8
     module load intel-compiler/2019.3.199
     module load intel-mpi/2019.6.166
     module load netcdf/4.7.1
