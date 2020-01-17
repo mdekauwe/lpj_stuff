@@ -7,8 +7,8 @@
 # as a parallel job using PBS on Simba.
 #
 # Created automatically on Fri Jan 17 15:59:04 AEDT 2020
-# 
-# Usage: 
+#
+# Usage:
 #
 #   1. Copy script to the directory where you want output written.
 #      This will be called the RUN DIRECTORY.
@@ -82,7 +82,7 @@ GRIDLIST_FILENAME=$(basename $GRIDLIST)
 # the original gridlist file into approximately equal parts.
 function split_gridlist {
     # Create empty gridlists first to make sure each run gets one
-    for ((a=1; a <= NPROCESS ; a++)) 
+    for ((a=1; a <= NPROCESS ; a++))
     do
       echo > run$a/$GRIDLIST_FILENAME
     done
@@ -130,6 +130,7 @@ cat <<EOF > guess.cmd
 #!/bin/bash
 #PBS -l nodes=$NPROCESS
 #PBS -l walltime=$WALLTIME
+#PBS -l storage=gdata/w35/
 set -e
 
 cd \$PBS_O_WORKDIR
@@ -144,6 +145,7 @@ cat <<EOF > append.cmd
 #!/bin/bash
 #PBS -l nodes=1
 #PBS -l walltime=$WALLTIME
+#PBS -l storage=gdata/w35/
 set -e
 
 cd \$PBS_O_WORKDIR
