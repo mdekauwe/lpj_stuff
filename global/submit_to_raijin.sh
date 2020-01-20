@@ -3,10 +3,10 @@
 # submit.sh
 #
 # Portable bash script to run LPJ-GUESS version:
-# /home/576/mgk576/research/lpj_guess/src/guess_4.0.1/guess
+# BINARY
 # as a parallel job using PBS on Simba.
 #
-# Created automatically on Fri Jan 17 15:59:04 AEDT 2020
+# Created automatically on DATE
 #
 # Usage:
 #
@@ -15,12 +15,17 @@
 #   2. In an editor, set appropriate values for the variables NPROCESS,
 #      INSFILE, GRIDLIST and OUTFILES (NB: no space after the = sign):
 
-NPROCESS=15
-WALLTIME=150:00:00
-INSFILE=guess.ins
+NPROCESS=128
+WALLTIME=12:00:00
+MEMORY=16GB
+INSFILE=global_cru.ins
 INPUT_MODULE=cru_ncep
-GRIDLIST=gridlist.txt
+GRIDLIST="gridlist_global_test.txt"
 OUTFILES='*.out'
+QUEUE=normal
+BINARY=guess
+PROJECT=w35
+EMAIL=mdekauwe@gmail.com
 
 #      Where:
 #      NPROCESS     = number of processes in parallel job
@@ -128,24 +133,42 @@ split_gridlist
 # Create PBS script to request place in queue
 cat <<EOF > guess.cmd
 #!/bin/bash
-#PBS -l nodes=$NPROCESS
+#PBS -l ncpus=$NPROCESS
 #PBS -l walltime=$WALLTIME
-#PBS -l storage=gdata/w35/
+#PBS -l mem=$MEMORY
+#PBS -l storage=gdata/w35
+#PBS -q normal
+#PBS -q $QUEUE
+#PBS -P $PROJECT
+#PBS -m ae
+#PBS -M $EMAIL
+#PBS -l wd
+#PBS -j oe
+#PBS -W umask=0022
+
 set -e
+
+module load intel-mpi/2019.6.166
 
 cd \$PBS_O_WORKDIR
 
 umask 022
 
-mpiexec -comm mpich-p4 /home/576/mgk576/research/lpj_guess/src/guess_4.0.1/guess -parallel -input $INPUT_MODULE $INSFILE
+mpirun $BINARY -parallel -input $INPUT_MODULE $INSFILE
 
 EOF
 
 cat <<EOF > append.cmd
 #!/bin/bash
-#PBS -l nodes=1
+#PBS -l ncpus=1
 #PBS -l walltime=$WALLTIME
-#PBS -l storage=gdata/w35/
+#PBS -l mem=$MEMORY
+#PBS -l storage=gdata/w35
+#PBS -q normal
+#PBS -l wd
+#PBS -j oe
+#PBS -W umask=0022
+
 set -e
 
 cd \$PBS_O_WORKDIR
