@@ -13,3 +13,8 @@ To get this running after building the executable ...
 
 
 - ./benchmarks -s -i "pristine_sites" ../../../../runs/sites_test
+
+
+## GADI stuff
+
+NETCDF_CXX_LIBRARY  is not found on gadi, I think this is because in /apps/netcdf/4.7.1/lib, there is a 4 in libnetcdf_c++4.so@. So, in the build script you need to explictly set this lib yourself.
