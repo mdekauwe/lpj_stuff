@@ -17,4 +17,15 @@ To get this running after building the executable ...
 
 ## GADI stuff
 
-NETCDF_CXX_LIBRARY  is not found on gadi, I think this is because in /apps/netcdf/4.7.1/lib, there is a 4 in libnetcdf_c++4.so@. So, in the build script you need to explictly set this lib yourself.
+NETCDF_CXX_LIBRARY is not found on gadi, I think this is because in /apps/netcdf/4.7.1/lib, there is a 4 in libnetcdf_c++4.so@. So, in the build script you need to explictly set this lib yourself as I think the 4 is throwing things off.
+
+There is a further issue with the PJ_ob_tran.c file:
+
+    $ cd utils/guess_utilities_1.3/gmap/libproj4/misc/
+    $ vi PJ_ob_tran.c
+
+change line 45
+
+    // change by mgdk to compile, 20/01/2020
+    if (xy.x != HUGE_VAL && P->rot) {
+    //if (xy.x != HUGE && P->rot) {
