@@ -16,4 +16,3 @@ if [ -d "logs" ]; then
     rm -rf logs
     mkdir logs
 fi
-

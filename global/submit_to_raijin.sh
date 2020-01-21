@@ -16,11 +16,11 @@
 #      INSFILE, GRIDLIST and OUTFILES (NB: no space after the = sign):
 
 NPROCESS=128
-WALLTIME=12:00:00
-MEMORY=16GB
+WALLTIME=04:00:00
+MEMORY=64GB
 INSFILE=global_cru.ins
 INPUT_MODULE=cru_ncep
-GRIDLIST="gridlist_global_test.txt"
+GRIDLIST="gridlist_global.txt"
 OUTFILES='*.out'
 QUEUE=normal
 BINARY=guess
