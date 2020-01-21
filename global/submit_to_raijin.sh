@@ -15,7 +15,7 @@
 #   2. In an editor, set appropriate values for the variables NPROCESS,
 #      INSFILE, GRIDLIST and OUTFILES (NB: no space after the = sign):
 
-NPROCESS=128
+NPROCESS=144
 WALLTIME=04:00:00
 MEMORY=64GB
 INSFILE=global_cru.ins
