@@ -9,8 +9,10 @@ import "global.ins"
 ! Forcing Data & gridlists
 !
 
-param "file_gridlist" (str "/g/data/w35/mgk576/research/lpj_guess/runs/global/gridlist_global.txt")
+! This file path cannot contain directories, you can set directory path in the submit script
+param "file_gridlist" (str "gridlist_global.txt")
 
+! These files can contain directories
 param "file_co2"      (str "/g/data/w35/Shared_data/lpj_forcing/climdata/co2_1901-2015.txt")
 param "file_cru"      (str "/g/data/w35/Shared_data/lpj_forcing/climdata/cruncep_1901_2015.bin")
 param "file_cru_misc" (str "/g/data/w35/Shared_data/lpj_forcing/climdata/cruncep_1901_2015misc.bin")

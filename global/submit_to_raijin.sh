@@ -16,11 +16,11 @@
 #      INSFILE, GRIDLIST and OUTFILES (NB: no space after the = sign):
 
 NPROCESS=144  # 48 CPUs per node
-WALLTIME=04:00:00
+WALLTIME=02:00:00
 MEMORY=64GB
 INSFILE=global_cru.ins
 INPUT_MODULE=cru_ncep
-GRIDLIST="gridlist_global.txt"
+GRIDLIST="/g/data/w35/mgk576/research/lpj_guess/runs/global/gridlist_global.txt"
 OUTFILES='*.out'
 QUEUE=normal
 BINARY=guess
