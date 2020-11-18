@@ -120,6 +120,9 @@ def plot_biomes(ds):
     tropical_tree = ds.TrBE+ds.TrIBE+ds.TrBR
     grass = ds.C3G + ds.C4G
 
+    cnt = 0
+    labels = []
+
     # Boreal deciduous forest/woodland - BNS dominant
     biome = np.where((boreal_tree > total_tree * 0.8) &
                      (total_tree > 0.5) &
@@ -131,7 +134,12 @@ def plot_biomes(ds):
                        (ds.BNS>ds.TrBE) &
                        (ds.BNS>ds.TrIBE) &
                        (ds.BNS>ds.TrBR) ),
-                      0, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Boreal decid. forest")
 
     # Boreal evergeeen forest/woodland - BNE or IBS (BBS) dominant
     biome = np.where((boreal_tree > total_tree * 0.8) &
@@ -143,14 +151,24 @@ def plot_biomes(ds):
                        ((ds.BNE>ds.TrBE) | (ds.IBS>ds.TrBE)) &
                        ((ds.BNE>ds.TrIBE) | (ds.IBS>ds.TrIBE)) &
                        ((ds.BNE>ds.TrBR) | (ds.IBS>ds.TrBR)) ),
-                      1, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Boreal ever. forest")
 
     # Temperate / boral mixed forest
     biome = np.where((total_tree * 0.2 < boreal_tree) &
                      (boreal_tree < total_tree * 0.8) &
                      (total_tree * 0.2 < temperate_tree) &
                      (temperate_tree < total_tree * 0.8),
-                     2, biome)
+                     cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Tem/bor. mixed forest")
 
     # Temperate conifer forest
     biome = np.where((temperate_tree > total_tree * 0.8) &
@@ -163,7 +181,13 @@ def plot_biomes(ds):
                        (ds.TeNE>ds.TrBE) &
                        (ds.TeNE>ds.TrIBE) &
                        (ds.TeNE>ds.TrBR) ),
-                      3, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Temperate conif. forest")
+
 
     # Temperate deciduous forest
     biome = np.where((temperate_tree > total_tree * 0.8) &
@@ -176,7 +200,13 @@ def plot_biomes(ds):
                        (ds.TeBS>ds.TrBE) &
                        (ds.TeBS>ds.TrIBE) &
                        (ds.TeBS>ds.TrBR) ),
-                      4, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Temperate decid. forest")
+
 
     # Temperate broadleaved evergreen forest
     biome = np.where((temperate_tree > total_tree * 0.8) &
@@ -188,61 +218,120 @@ def plot_biomes(ds):
                        ((ds.TeBE>ds.TrBE) | (ds.IBS>ds.TrBE) | (ds.TeBS>ds.TrBE)) &
                        ((ds.TeBE>ds.TrIBE) | (ds.IBS>ds.TrIBE) | (ds.TeBS>ds.TrIBE)) &
                        ((ds.TeBE>ds.TrBR) | (ds.IBS>ds.TrBR)| (ds.TeBS>ds.TrBR)) ),
-                      5, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Temperate broadleaved forest")
 
     # Temperate mixed forest
     biome = np.where((temperate_tree > total_tree * 0.8) &
                      (total_tree > 2.5),
-                      6, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Temperate mixed forest")
 
     # Tropical seasonal forest
     biome = np.where((tropical_tree > total_tree * 0.5) &
                      (total_tree > 2.5) &
                      ((ds.TrBE < total_tree * 0.6) & (ds.TrBR < total_tree * 0.6)),
-                      7, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Temperate seasonal forest")
+
 
     # Tropical rain forest
     biome = np.where((ds.TrBE > total_tree * 0.6) &
                      (total_tree > 2.5),
-                      8, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Tropical rainforest")
+
 
     # Tropical deciduous forest
     biome = np.where((ds.TrBR > total_tree * 0.6) &
                      (total_tree > 2.5),
-                      9, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Tropical deciduous for")
 
     # Moist savannas
     biome = np.where((total_tree > 0.5) &
                      (total_tree < 2.5) &
                      (ds.Total > 3),
-                      10, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Moist savannas")
 
     # Dry savannas
     biome = np.where((total_tree > 0.5) &
                      (total_tree < 2.5) &
                      (ds.Total <= 3),
-                      11, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Dry savannas")
+
 
     # Tall grassland
     biome = np.where((total_tree < 0.5) &
                      (grass > 3.0),
-                      12, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Tall grassland")
 
     # Dry grassland
     biome = np.where((total_tree < 0.2) &
                      (grass > 0.5),
-                      13, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Dry grassland")
 
     # Xeric woodland/shrub
     biome = np.where((total_tree > 0.5) &
                      (total_tree < 2.5) &
                      (grass < total_tree),
-                      14, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Xeric woodland")
 
     # Arid shrubland/steppe
     biome = np.where((total_tree < 0.5) &
                       (ds.Total > 0.2),
-                      15, biome)
+                      cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Arid shrubland")
+
 
     # Arctic/alpine tundra - Lat > 54 or sum GDD5 < 350
     #biome = np.where((total_tree < 0.5) &
@@ -250,7 +339,14 @@ def plot_biomes(ds):
     #                  16, biome)
 
     # Desert
-    biome = np.where(ds.Total < 0.2, 16, biome)
+    biome = np.where(ds.Total < 0.2, cnt, biome)
+
+    total_pixels = len(biome[biome==cnt])
+    print(total_pixels)
+    if total_pixels > 0:
+        cnt += 1
+        labels.append("Desert")
+
 
     #plt.imshow(biome)
     #plt.colorbar()
@@ -275,41 +371,29 @@ def plot_biomes(ds):
 
     ax.add_feature(cartopy.feature.OCEAN)
 
-    bounds = np.arange(16)
-    bounds = np.append(bounds, bounds[-1]+1)
+    print(cnt)
+    print(len(labels))
+    bounds = np.arange(cnt+1)
+
     cmap = plt.cm.viridis
     norm = colors.BoundaryNorm(bounds, cmap.N)
-    #labels = ["RAF", "WSF", "DSF", "GRW", "SAW"]
-    labels = ["Boreal decid. for.",\
-              "Boreal ever. for.", \
-              "Tem/bor. mixed for.", \
-              "Tem. conif. for.", \
-              "Tem. decid. for.", \
-              "Tem. broad.. for.", \
-              "Tem. mixed for.", \
-              "Tro. seasonal for.", \
-              "Tro. rain for.", \
-              "Tro. decid for.", \
-              "Moist savannas", \
-              "Dry savannas", \
-              "Tall grass", \
-              "Dry grass", \
-              "Xeric wood.", \
-              "Arid shrub", \
-              "Desert"]
+
 
     top, bottom = 90, -90
     left, right = -180, 180
     img = ax.imshow(biome, origin='lower', transform=ccrs.PlateCarree(),
                     interpolation='nearest', cmap=cmap, norm=norm,
                     extent=(left, right, bottom, top))
-    cbar = plt.colorbar(img, cmap=cmap, norm=norm, boundaries=bounds, ticks=bounds,
-                        orientation='vertical', shrink=0.7, pad=0.04)
+    cbar = plt.colorbar(img, cmap=cmap, norm=norm, boundaries=bounds,
+                        ticks=bounds,orientation='vertical', shrink=0.7,
+                        pad=0.04)
     cbar.set_ticklabels(labels)
+    cbar.ax.tick_params(labelsize=8)
     #tick_locs = np.arange(16)
     #cbar.set_ticks(tick_locs)
     cbar.ax.set_title("Vegetation\ntypes", fontsize=8)
-
+    tick_locs = [0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5]
+    cbar.set_ticks(tick_locs)
     #ax.set_ylabel("Latitude")
     #ax.set_xlabel("Longtiude")
     ax.text(-0.10, 0.55, 'Latitude', va='bottom', ha='center',
