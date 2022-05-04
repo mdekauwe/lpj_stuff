@@ -147,7 +147,7 @@ cat <<EOF > guess.cmd
 #!/bin/bash
 #SBATCH -n $NPROCESS
 #SBATCH --time=$WALLTIME
-SBATCH --exclusive
+#SBATCH --exclusive
 #SBATCH --mem=${MEMORY}
 
 set -e
@@ -195,4 +195,4 @@ EOF
 append_dependency=$(sbatch -J ${name:-"guess"} guess.cmd | awk '{print $NF}')
 
 # Submit append job
-sbatch --dependency=afterok:$append_dependency -J ${name:-"guess"}"_append" append.cmd 
+sbatch --dependency=afterok:$append_dependency -J ${name:-"guess"}"_append" append.cmd
