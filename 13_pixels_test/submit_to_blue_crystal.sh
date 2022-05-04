@@ -15,8 +15,9 @@
 #   2. In an editor, set appropriate values for the variables NPROCESS,
 #      INSFILE, GRIDLIST and OUTFILES (NB: no space after the = sign):
 
-NPROCESS=14 # BC4 have two physical CPU chips (some would describe this as having two sockets), with 14 processing cores inside each; Slurm would say that this node has ‘28 CPUs’.
+NPROCESS=28 # BC4 have two physical CPU chips (some would describe this as having two sockets), with 14 processing cores inside each; Slurm would say that this node has ‘28 CPUs’.
 WALLTIME=00:10:00
+MEMORY=16GB
 INSFILE=global_cru.ins
 INPUT_MODULE=cru_ncep
 GRIDLIST="13_sites_gridlist_global_test.txt"
@@ -76,9 +77,9 @@ fi
 # If you really want to, you could remove this check and the --exclusive
 # option below, but your jobs might then be disturbed by other jobs
 # sharing your nodes.
-CORES_PER_NODE=14
+CORES_PER_NODE=28
 if [[ $((NPROCESS%CORES_PER_NODE)) != 0 ]]; then
-    echo "Please set NPROCESS to a multiple of 14 on Blue Crystal!" >&2
+    echo "Please set NPROCESS to a multiple of 28 on Blue Crystal!" >&2
     exit 1
 fi
 
@@ -147,34 +148,13 @@ cat <<EOF > guess.cmd
 #SBATCH -n $NPROCESS
 #SBATCH --time=$WALLTIME
 SBATCH --exclusive
+#SBATCH --mem=${MEMORY}
 
 set -e
 
-module load intel
+module load languages/intel/2020-u4
 
-if ! type -P mpirun &> /dev/null; then
-    echo "Didn't find mpirun! Make sure an MPI module is loaded in your" >&2
-    echo "login script (~/.bashrc) and recompile LPJ-GUESS with MPI support!" >&2
-    exit 1
-fi
-
-# If there's a script for setting up files on local disk, run it
-if [ -f setup_local.sh ]; then
-    srun -n \$SLURM_NNODES -N \$SLURM_NNODES setup_local.sh
-fi
-
-# In each run directory, create a symbolic link to the node local storage
-for ((a=1; a <= $NPROCESS ; a++))
-do
-  cd run\$a
-  if [ -h local ]; then
-      rm local
-  fi
-  ln -s \$SNIC_TMP local
-  cd ..
-done
-
-mpirun -bind-to core $BINARY -parallel -input $INPUT_MODULE $INSFILE
+srun --mpi=pmi2 ${BINARY} -parallel -input $INPUT_MODULE $INSFILE
 
 EOF
 
@@ -215,4 +195,4 @@ EOF
 append_dependency=$(sbatch -J ${name:-"guess"} guess.cmd | awk '{print $NF}')
 
 # Submit append job
-sbatch --dependency=afterok:$append_dependency -J ${name:-"guess"}"_append" append.cmd | awk '{print $NF}'
+sbatch --dependency=afterok:$append_dependency -J ${name:-"guess"}"_append" append.cmd 
