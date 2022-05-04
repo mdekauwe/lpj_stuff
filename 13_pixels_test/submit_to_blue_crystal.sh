@@ -15,7 +15,7 @@
 #   2. In an editor, set appropriate values for the variables NPROCESS,
 #      INSFILE, GRIDLIST and OUTFILES (NB: no space after the = sign):
 
-NPROCESS=16
+NPROCESS=28 # BC4 have two physical CPU chips (some would describe this as having two sockets), with 14 processing cores inside each; Slurm would say that this node has ‘28 CPUs’.
 WALLTIME=00:10:00
 INSFILE=global_cru.ins
 INPUT_MODULE=cru_ncep
@@ -70,20 +70,18 @@ if [ -n "$ins" ]; then
     INSFILE=$ins
 fi
 
-### MDK commented out, 4 MAY 2022
-###
-# On Aurora, the recommendation is to submit jobs with the --exclusive
-# option, so we get exclusive nodes. Since each node has 20 cores, we
-# should set NPROCESS to a multiple of 20 to avoid waste.
+# On blue crystal, the recommendation is to submit jobs with the --exclusive
+# option, so we get exclusive nodes. Since each node has 28 cores, we
+# should set NPROCESS to a multiple of 28 to avoid waste.
 # If you really want to, you could remove this check and the --exclusive
 # option below, but your jobs might then be disturbed by other jobs
 # sharing your nodes.
-#CORES_PER_NODE=20
-#if [[ $((NPROCESS%CORES_PER_NODE)) != 0 ]]; then
-#    echo "Please set NPROCESS to a multiple of 20 on Aurora!" >&2
-#    exit 1
-#fi
-###
+CORES_PER_NODE=28
+if [[ $((NPROCESS%CORES_PER_NODE)) != 0 ]]; then
+    echo "Please set NPROCESS to a multiple of 28 on Blue Crystal!" >&2
+    exit 1
+fi
+
 
 # Convert INSFILE to an absolute path since we will be starting the
 # guess instances from different directories.
@@ -142,15 +140,13 @@ done
 split_gridlist
 
 
-### MDK 4 MAY 2022
-# I removed this from the list below...
-#SBATCH --exclusive
 
 # Create SLURM script to request place in queue
 cat <<EOF > guess.cmd
 #!/bin/bash
 #SBATCH -n $NPROCESS
 #SBATCH --time=$WALLTIME
+SBATCH --exclusive
 
 set -e
 
