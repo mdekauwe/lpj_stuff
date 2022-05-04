@@ -15,7 +15,7 @@
 #   2. In an editor, set appropriate values for the variables NPROCESS,
 #      INSFILE, GRIDLIST and OUTFILES (NB: no space after the = sign):
 
-NPROCESS=28 # BC4 have two physical CPU chips (some would describe this as having two sockets), with 14 processing cores inside each; Slurm would say that this node has ‘28 CPUs’.
+NPROCESS=14 # BC4 have two physical CPU chips (some would describe this as having two sockets), with 14 processing cores inside each; Slurm would say that this node has ‘28 CPUs’.
 WALLTIME=00:10:00
 INSFILE=global_cru.ins
 INPUT_MODULE=cru_ncep
@@ -76,9 +76,9 @@ fi
 # If you really want to, you could remove this check and the --exclusive
 # option below, but your jobs might then be disturbed by other jobs
 # sharing your nodes.
-CORES_PER_NODE=28
+CORES_PER_NODE=14
 if [[ $((NPROCESS%CORES_PER_NODE)) != 0 ]]; then
-    echo "Please set NPROCESS to a multiple of 28 on Blue Crystal!" >&2
+    echo "Please set NPROCESS to a multiple of 14 on Blue Crystal!" >&2
     exit 1
 fi
 
