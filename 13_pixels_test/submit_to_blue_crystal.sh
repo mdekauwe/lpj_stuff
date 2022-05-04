@@ -152,7 +152,7 @@ cat <<EOF > guess.cmd
 
 set -e
 
-module load languages/intel/2020-u4
+#module load languages/intel/2020-u4
 
 srun --mpi=pmi2 ${BINARY} -parallel -input $INPUT_MODULE $INSFILE
 

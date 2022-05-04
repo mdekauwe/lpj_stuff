@@ -32,10 +32,10 @@ then
     cmake guess_4.0.1
 elif [ $MACHINE == "bc4l" ] # Bristol
 then
-    module load intel
+    #module load languages/intel/2020-u4
     module add libs/netcdf/4.7.3
     module load CMake/3.9.5-GCCcore-6.4.0
-    export CMAKE_PREFIX_PATH=$NETCDF_ROOT
+    export CMAKE_PREFIX_PATH=/mnt/storage/software/libraries/gnu/netcdf-4.7.3
     cmake guess_4.0.1
 else
     #module load intel-cc/2019.0.117
