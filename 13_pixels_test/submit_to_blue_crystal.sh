@@ -154,6 +154,8 @@ cat <<EOF > guess.cmd
 
 set -e
 
+module load intel
+
 if ! type -P mpirun &> /dev/null; then
     echo "Didn't find mpirun! Make sure an MPI module is loaded in your" >&2
     echo "login script (~/.bashrc) and recompile LPJ-GUESS with MPI support!" >&2
