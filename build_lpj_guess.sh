@@ -8,15 +8,17 @@ if [ $CLEAN == true ]; then
     rm -rf CMake* cmake_install.cmake cru framework guess_4.0.1 libraries
     rm -rf modules submit.sh
 
-    cp zips/guess_4.0.1.tar.gz .
-    gunzip < guess_4.0.1.tar.gz | tar -xvf -
-    rm -rf guess_4.0.1.tar.gz
+    #cp zips/guess_4.0.1.tar.gz .
+    cp zips/guess_4.0.1_post2020_ndep_patch.tar.gz .
+    #gunzip < guess_4.0.1.tar.gz | tar -xvf -
+    gunzip < guess_4.0.1_post2020_ndep_patch.tar.gz | tar -xvf -
+    #rm -rf guess_4.0.1.tar.gz
+    rm -rf guess_4.0.1_post2020_ndep_patch.tar.gz
 fi
 
 if [ $MACHINE == "Mart" ] # my mac
 then
     CMAKE_PREFIX_PATH=/opt/local/
-    cmake guess_4.0.1
 elif [ $MACHINE == "gadi" ] # nci
 then
     module purge
@@ -28,11 +30,18 @@ then
     module load netcdf/4.7.1
     export CMAKE_PREFIX_PATH=$NETCDF_ROOT
     cmake guess_4.0.1
-else                        # storm servers
-    module purge
+elif [ $MACHINE == "bc4l" ] # Bristol
+then
+    module load intel
+    module add libs/netcdf/4.7.3
+    module load CMake/3.9.5-GCCcore-6.4.0
+    export CMAKE_PREFIX_PATH=$NETCDF_ROOT
+    cmake guess_4.0.1
+else
     #module load intel-cc/2019.0.117
     module load netcdf/4.1.3-intel
     module load cmake/2.8.11
+    #module load intel-mpi/2019.0.117
     export CMAKE_PREFIX_PATH=$NETCDF_ROOT
     cmake guess_4.0.1
 fi
