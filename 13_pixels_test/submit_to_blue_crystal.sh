@@ -154,6 +154,11 @@ set -e
 
 #module load languages/intel/2020-u4
 
+module load tools/cmake/3.20.0
+module load libs/netcdf/4.7.3
+module load libs/openmpi/4.1.1
+
+
 srun --mpi=pmi2 ${BINARY} -parallel -input $INPUT_MODULE $INSFILE
 
 EOF
