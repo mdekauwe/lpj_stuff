@@ -158,7 +158,8 @@ module load libs/netcdf/4.7.3
 module load libs/openmpi/4.1.1
 
 
-srun --mpi=pmi2 ${BINARY} -parallel -input $INPUT_MODULE $INSFILE
+#srun --mpi=pmi2 ${BINARY} -parallel -input $INPUT_MODULE $INSFILE
+mpirun ${BINARY} -parallel -input $INPUT_MODULE $INSFILE
 
 EOF
 
